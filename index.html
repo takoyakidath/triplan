@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Triplan - 予定の内容を決めるアプリ</title>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="progress"></div>
+        <div class="screen screen-0">
+            <div>
+                <div><header>Triplan</header></div>
+                <div><button>はじめる</button></div>
+                <div>前までの記録</div>
+
+            </div>
+        </div>
+        <div class="screen screen-1">
+            <div class="card">
+                <div class="card-title">どこに行く？</div>
+                <div class="input-description">回答を入力してください</div>
+                <div class="input"><input type="text" placeholder="" /></div>
+                <div class="button"><button id="nextbtn">次へ</button></div>
+            </div>
+        </div>
+        <div class="screen screen-2">
+            <div class="card">
+                <div class="card-title">何日に出発する？</div>
+                <div class="input-description">回答を入力してください</div>
+                <div class="date"><input type="date"></div>
+                <div class="button"><button id="nextbtn">次へ</button></div>
+            </div>
+        </div>
+        <div class="screen screen-3">
+            <div class="card">
+                <div class="card-title">何日まで行く？</div>
+                <div class="input-description">回答を入力してください</div>
+                <div class="date"><input type="date"></div>
+                <div class="button"><button id="nextbtn">次へ</button></div>
+            </div>
+        </div>
+        <div class="screen screen-4">
+            <div class="card">
+                <div class="card-title">期間中にどこに行く？</div>
+                <div class="input-description">回答を入力してください</div>
+                <div class="input"><input type="text" placeholder="" /></div>
+                <div class="button"><button id="nextbtn">次へ</button></div>
+            </div>
+        </div>
+        <div class="screen screen-5">
+            <div class="card">
+                <div class="card-title">何で行く？</div>
+                <div class="input-description">回答を入力してください</div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="transport" value="飛行機" /> 飛行機</label><br />
+                    <label><input type="checkbox" id="transport" value="電車" /> 電車</label><br />
+                    <label><input type="checkbox" id="transport" value="車" /> 車</label><br />
+                    <label><input type="checkbox" id="transport" value="バス" /> バス</label><br />
+                    <label><input type="checkbox" id="transport" value="徒歩" /> 徒歩</label><br />
+                    <label><input type="checkbox" id="transport" value="フェリー" /> フェリー</label>
+                </div>
+                <div class="button"><button id="nextbtn">次へ</button></div>
+            </div>
+        </div>
+        <div class="screen screen-10">
+            <div class="card">
+                <div class="card-title">何で帰る？</div>
+                <div class="input-description">回答を入力してください</div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="transport" value="飛行機" />
+                        飛行機</label><br />
+                    <label><input type="checkbox" id="transport" value="電車" /> 電車</label><br />
+                    <label><input type="checkbox" id="transport" value="車" /> 車</label><br />
+                    <label><input type="checkbox" id="transport" value="バス" /> バス</label><br />
+                    <label><input type="checkbox" id="transport" value="徒歩" /> 徒歩</label><br />
+                    <label><input type="checkbox" id="transport" value="フェリー" />
+                        フェリー</label>
+                </div>
+            </div>
+                <div class="button"><button id="nextbtn">次へ</button></div>
+        </div>
+    </div>
+    <div class="screen screen-10">
+        <div class="card">
+            <div class="card-title">期間中の予定を決めよう</div>
+            <div class="input-description">回答を入力してください</div>
+            <div>
+                <input type="text" placeholder="例：観光、食事、買い物、温泉など" />
+                <button>+</button>
+            </div>
+            <div class="button"><button>完成</button></div>
+        </div>
+    </div>
+    <div class="screen screen-11">
+        <div class="share"><button>共有</button></div>
+    </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

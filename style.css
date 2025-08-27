@@ -1,0 +1,6 @@
+body {
+    flex: auto;
+    > .container {
+        margin: auto;
+    }
+}
