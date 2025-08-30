@@ -11,13 +11,13 @@
 
 <body>
     <div class="container">
-        <div class="progress"></div>
         <div class="screen screen-0">
             <div>
-                <div><header>Triplan</header></div>
-                <div><button>はじめる</button></div>
+                <div>
+                    <header>Triplan</header>
+                </div>
+                <div><button class="nextbtn">はじめる</button></div>
                 <div>前までの記録</div>
-
             </div>
         </div>
         <div class="screen screen-1">
@@ -25,7 +25,7 @@
                 <div class="card-title">どこに行く？</div>
                 <div class="input-description">回答を入力してください</div>
                 <div class="input"><input type="text" placeholder="" /></div>
-                <div class="button"><button id="nextbtn">次へ</button></div>
+                <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
             </div>
         </div>
         <div class="screen screen-2">
@@ -33,15 +33,22 @@
                 <div class="card-title">何日に出発する？</div>
                 <div class="input-description">回答を入力してください</div>
                 <div class="date"><input type="date"></div>
-                <div class="button"><button id="nextbtn">次へ</button></div>
+                <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
+
             </div>
         </div>
         <div class="screen screen-3">
             <div class="card">
-                <div class="card-title">何日まで行く？</div>
+                <div class="card-title">何泊する？</div>
                 <div class="input-description">回答を入力してください</div>
-                <div class="date"><input type="date"></div>
-                <div class="button"><button id="nextbtn">次へ</button></div>
+                <select name="stay">
+                    <option>日帰り</option>
+                    <option>1泊</option>
+                    <option>2泊</option>
+                    <option>3泊</option>
+                    <option value="others">それ以上</option>
+                </select>
+                <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
             </div>
         </div>
         <div class="screen screen-4">
@@ -49,7 +56,9 @@
                 <div class="card-title">期間中にどこに行く？</div>
                 <div class="input-description">回答を入力してください</div>
                 <div class="input"><input type="text" placeholder="" /></div>
-                <div class="button"><button id="nextbtn">次へ</button></div>
+                <button>+</button>
+                <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
+
             </div>
         </div>
         <div class="screen screen-5">
@@ -64,7 +73,7 @@
                     <label><input type="checkbox" id="transport" value="徒歩" /> 徒歩</label><br />
                     <label><input type="checkbox" id="transport" value="フェリー" /> フェリー</label>
                 </div>
-                <div class="button"><button id="nextbtn">次へ</button></div>
+                <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
             </div>
         </div>
         <div class="screen screen-10">
@@ -81,8 +90,9 @@
                     <label><input type="checkbox" id="transport" value="フェリー" />
                         フェリー</label>
                 </div>
+                <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
             </div>
-                <div class="button"><button id="nextbtn">次へ</button></div>
+            <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">次へ</button></div>
         </div>
     </div>
     <div class="screen screen-10">
@@ -93,11 +103,12 @@
                 <input type="text" placeholder="例：観光、食事、買い物、温泉など" />
                 <button>+</button>
             </div>
-            <div class="button"><button>完成</button></div>
+            <div class="button"><button class="returnbtn">戻る</button><button class="nextbtn">完成</button></div>
         </div>
     </div>
     <div class="screen screen-11">
         <div class="share"><button>共有</button></div>
+        <div class="share"><button class="homebtn">ホームに戻る</button></div>
     </div>
     </div>
 
