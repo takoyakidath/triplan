@@ -26,7 +26,7 @@
             <div class="screen screen-1">
                 <div class="card">
                     <div class="card-title">どこに行く？</div>
-                    <div class="input"><input type="text" placeholder="" required /></div>
+                    <div class="input"><input type="text" placeholder="" name="destination" required /></div>
                     <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
                             type="button">次へ</button></div>
                 </div>
@@ -34,7 +34,7 @@
             <div class="screen screen-2">
                 <div class="card">
                     <div class="card-title">何日に出発する？</div>
-                    <div class="date"><input type="date" required></div>
+                    <div class="date"><input type="date" name="go-date" required></div>
                     <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
                             type="button">次へ</button></div>
                 </div>
@@ -49,6 +49,8 @@
                         <option>3泊</option>
                         <option value="others">それ以上</option>
                     </select>
+                    <div class="input-others"><input type="number" name="stay-others" min="4" placeholder="泊数を入力" />
+                    </div>
                     <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
                             type="button">次へ</button></div>
                 </div>
@@ -57,12 +59,12 @@
                 <div class="card">
                     <div class="card-title">何で行く？</div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="transport-go[]" value="飛行機" required /> 飛行機</label><br />
-                        <label><input type="checkbox" name="transport-go[]" value="電車" /> 電車</label><br />
-                        <label><input type="checkbox" name="transport-go[]" value="車" /> 車</label><br />
-                        <label><input type="checkbox" name="transport-go[]" value="バス" /> バス</label><br />
-                        <label><input type="checkbox" name="transport-go[]" value="徒歩" /> 徒歩</label><br />
-                        <label><input type="checkbox" name="transport-go[]" value="フェリー" /> フェリー</label>
+                        <label><input type="checkbox" name="transport-go" value="飛行機" required /> 飛行機</label><br />
+                        <label><input type="checkbox" name="transport-go" value="電車" /> 電車</label><br />
+                        <label><input type="checkbox" name="transport-go" value="車" /> 車</label><br />
+                        <label><input type="checkbox" name="transport-go" value="バス" /> バス</label><br />
+                        <label><input type="checkbox" name="transport-go" value="徒歩" /> 徒歩</label><br />
+                        <label><input type="checkbox" name="transport-go" value="フェリー" /> フェリー</label>
                     </div>
                     <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
                             type="button">次へ</button></div>
@@ -73,12 +75,12 @@
                     <div class="card-title">何で帰る？</div>
 
                     <div class="checkbox">
-                        <label><input type="checkbox" name="transport-return[]" value="飛行機" required />飛行機</label><br />
-                        <label><input type="checkbox" name="transport-return[]" value="電車" /> 電車</label><br />
-                        <label><input type="checkbox" name="transport-return[]" value="車" /> 車</label><br />
-                        <label><input type="checkbox" name="transport-return[]" value="バス" /> バス</label><br />
-                        <label><input type="checkbox" name="transport-return[]" value="徒歩" /> 徒歩</label><br />
-                        <label><input type="checkbox" name="transport-return[]" value="フェリー" />
+                        <label><input type="checkbox" name="transport-return" value="飛行機" required />飛行機</label><br />
+                        <label><input type="checkbox" name="transport-return" value="電車" /> 電車</label><br />
+                        <label><input type="checkbox" name="transport-return" value="車" /> 車</label><br />
+                        <label><input type="checkbox" name="transport-return" value="バス" /> バス</label><br />
+                        <label><input type="checkbox" name="transport-return" value="徒歩" /> 徒歩</label><br />
+                        <label><input type="checkbox" name="transport-return" value="フェリー" />
                             フェリー</label>
                     </div>
                     <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
@@ -91,8 +93,8 @@
             <div class="card-title">期間中の予定を決めよう</div>
             <div class="input-description">回答を入力してください</div>
             <div>
-                <input type="text" placeholder="例：観光、食事、買い物、温泉など" required /><br>
-                <input type="text" placeholder="例：観光、食事、買い物、温泉など" required /> <button>-</button>
+                <input type="text" name="plan" placeholder="例：観光、食事、買い物、温泉など" required /><br>
+                <input type="text" name="plan" placeholder="例：観光、食事、買い物、温泉など" required /> <button>-</button>
                 <button type="button">+</button>
             </div>
             <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"

@@ -35,3 +35,7 @@ body {
     justify-content: space-between;
 display: flex;
 }
+.input-others{
+  display: none;
+  margin-top: 10px;
+}
