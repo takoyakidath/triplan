@@ -1,53 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 定数定義
+  const STORAGE_KEY = "triplan:plans";
+  const EDIT_KEY = "triplan:editId";
+  
+  // DOM要素の取得
   const screens = document.querySelectorAll(".screen");
+  const form = document.querySelector("#form");
+  const confirm = document.getElementById("confirm");
+  const logs = document.querySelector(".logs");
+  const plansContainer = document.getElementById("plans-container");
+  const addPlanBtn = document.getElementById("add-plan");
+  const staySelect = document.querySelector("[name='stay']");
+  const inputOthers = document.querySelector(".input-others");
+  
   let current = 0;
 
+  // 画面表示管理
   function showScreen(index) {
     if (index < 0) index = 0;
     if (index >= screens.length) index = screens.length - 1;
+
     screens.forEach(s => (s.style.display = "none"));
     screens[index].style.display = "block";
     current = index;
+
+    if (screens[index].classList.contains("screen-7")) {
+      showConfirm();
+    }
   }
 
-  showScreen(current);
+  // 初期画面表示
+  showScreen(0);
 
-  document.querySelectorAll(".nextbtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      // 今の画面の入力要素を集める
-      const inputs = screens[current].querySelectorAll("input, select, textarea");
-      let valid = true;
-  
-      inputs.forEach(input => {
-        if (!input.checkValidity()) {
-          input.reportValidity(); // ブラウザ標準のエラー表示を出す
-          valid = false;
-        }
-      });
-  
-      if (valid) {
-        showScreen(current + 1);
-      }
-    });
-  });
-
-  document.querySelectorAll(".returnbtn").forEach(btn => {
-    btn.addEventListener("click", () => showScreen(current - 1));
-  });
-
-  document.querySelectorAll(".homebtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      localStorage.removeItem(STORAGE_KEY);  // ← これで今回のデータを消す
-      document.querySelector("#form").reset(); // ← 入力欄もリセットしておく
-      showScreen(0);
-    });
-  });
-  
-
-  const STORAGE_KEY = "triplan:form";
-
-  function saveForm() {
-    const form = document.querySelector("#form");
+  // フォームデータ収集
+  function collectFormData() {
     const data = {};
     new FormData(form).forEach((value, key) => {
       if (data[key]) {
@@ -57,13 +43,48 @@ document.addEventListener("DOMContentLoaded", () => {
         data[key] = value;
       }
     });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    // プラン項目の特別処理
+    const plans = [];
+    const planInputs = form.querySelectorAll("[name='plan']");
+    planInputs.forEach(input => {
+      if (input.value.trim()) {
+        plans.push(input.value.trim());
+      }
+    });
+    data.plans = plans;
+
+    return data;
   }
-  function loadForm() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const data = JSON.parse(raw);
-  
+
+  // 配列変換ヘルパー
+  function toArray(val) {
+    if (!val) return [];
+    return Array.isArray(val) ? val : [val];
+  }
+
+  // プラン保存
+  function savePlan(data) {
+    let plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    const editId = localStorage.getItem(EDIT_KEY);
+
+    if (editId !== null) {
+      plans[parseInt(editId, 10)] = data;
+      localStorage.removeItem(EDIT_KEY);
+    } else {
+      plans.push(data);
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(plans));
+  }
+
+  // フォームにプランを読み込み
+  function loadPlanToForm(id) {
+    let plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    let data = plans[id];
+    if (!data) return;
+
+    form.reset();
     Object.entries(data).forEach(([key, value]) => {
       const elems = document.querySelectorAll(`[name="${key}"]`);
       elems.forEach(elem => {
@@ -74,109 +95,167 @@ document.addEventListener("DOMContentLoaded", () => {
             elem.checked = elem.value === value;
           }
         } else {
-          elem.value = value;
+          elem.value = Array.isArray(value) ? value[0] : value;
         }
       });
     });
   }
-  document.querySelectorAll("#form input, #form select, #form textarea").forEach(el => {
-    el.addEventListener("change", saveForm);
-  });
-  loadForm();  
-  
-  function toArray(val) {
-    if (!val) return [];
-    return Array.isArray(val) ? val : [val];
-  }
-  
+
+  // 確認画面表示
   function showConfirm() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const data = JSON.parse(raw);
-  
-    const confirm = document.getElementById("confirm");
+    const data = collectFormData();
     confirm.innerHTML = `
-      <label>行き先: 
-        <input type="text" name="destination" value="${data.destination || ""}">
-      </label><br>
-      <label>出発日: 
-        <input type="date" name="go-date" value="${data["go-date"] || ""}">
-      </label><br>
-      <label>宿泊: 
-        <input type="text" name="stay" value="${data.stay || ""}">
-      </label><br>
-      <label>その他泊数: 
-        <input type="number" name="stay-others" value="${data["stay-others"] || ""}">
-      </label><br>
-      <label>行きの交通手段: 
-        <input type="text" name="transport-go" value="${toArray(data["transport-go"]).join(", ")}">
-      </label><br>
-      <label>帰りの交通手段: 
-        <input type="text" name="transport-return" value="${toArray(data["transport-return"]).join(", ")}">
-      </label><br>
-      <label>予定: 
-        <textarea name="plans">${toArray(data.plans).join(", ")}</textarea>
-      </label>
+      <p><strong>行き先:</strong> ${data.destination || ""}</p>
+      <p><strong>出発日:</strong> ${data["go-date"] || ""}</p>
+      <p><strong>宿泊:</strong> ${data.stay || ""} ${data["stay-others"] || ""}</p>
+      <p><strong>行きの交通手段:</strong> ${toArray(data["transport-go"]).join(", ")}</p>
+      <p><strong>帰りの交通手段:</strong> ${toArray(data["transport-return"]).join(", ")}</p>
+      <p><strong>予定:</strong> ${toArray(data.plans).join(", ")}</p>
     `;
   }
-  
-  
 
-  function showScreen(index) {
-    if (index < 0) index = 0;
-    if (index >= screens.length) index = screens.length - 1;
-    screens.forEach(s => (s.style.display = "none"));
-    screens[index].style.display = "block";
-    current = index;
-  
-    // 確認画面に来たら一覧を表示
-    if (screens[index].classList.contains("screen-7")) {
-      showConfirm();
-    }
-  }
-
-  document.querySelector("#form").addEventListener("submit", e => {
-    e.preventDefault();
-    saveForm();
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const data = JSON.parse(raw);
-  
-    // ホーム画面のログに追加
-    const logs = document.querySelector(".logs");
-    const div = document.createElement("div");
-    div.textContent = `${data.destination} (${data["go-date"]})`;
-    logs.appendChild(div);
-  
-    showScreen(8); // 共有画面へ
-  });
-  
+  // ログ表示
   function renderLogs() {
-    const logs = document.querySelector(".logs");
     logs.innerHTML = "";
-  
+
     let plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     plans.forEach((plan, index) => {
       const row = document.createElement("div");
       row.className = "log-item";
-  
+
       const title = document.createElement("span");
-      title.textContent = `${plan.destination || "未設定"} (${plan["go-date"] || "日付未定"})`;
-  
-      // 編集ボタン
+      title.textContent = `${plan.destination || "未設定"} (${plan["go-date"] || "未定"})`;
+
       const btn = document.createElement("button");
       btn.className = "editbtn";
       btn.textContent = "編集";
       btn.addEventListener("click", () => {
         loadPlanToForm(index);
-        localStorage.setItem("triplan:editId", index);
-        showScreen(1); // フォームの最初に戻る
+        localStorage.setItem(EDIT_KEY, index);
+        showScreen(1);
+        showConfirm();
       });
-  
+
       row.appendChild(title);
       row.appendChild(btn);
       logs.appendChild(row);
     });
   }
-  
-  
+
+  // プラン項目追加
+  function addPlanItem() {
+    const newInput = document.createElement("div");
+    newInput.className = "plan-item";
+
+    newInput.innerHTML = `
+      <input type="text" name="plan" placeholder="例：観光、食事、買い物、温泉など" required />
+      <button type="button" class="remove-plan">-</button>
+    `;
+    plansContainer.appendChild(newInput);
+
+    const removeBtn = newInput.querySelector(".remove-plan");
+    removeBtn.addEventListener("click", () => {
+      newInput.remove();
+    });
+  }
+
+  // 宿泊選択の表示制御
+  function toggleStayOthers() {
+    if (staySelect.value === "others") {
+      inputOthers.style.display = "block";
+    } else {
+      inputOthers.style.display = "none";
+    }
+  }
+
+  // フォーム送信処理
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const data = collectFormData();
+    savePlan(data);
+    renderLogs();
+    showScreen(8);
+  }
+
+  // 共有ボタン処理
+  function handleShare() {
+    const data = collectFormData();
+
+    const text = `
+## 旅行プラン
+
+- **行き先**: ${data.destination || ""}
+- **出発日**: ${data["go-date"] || ""}
+- **宿泊**: ${data.stay || ""} ${data["stay-others"] || ""}
+- **行きの交通手段**: ${toArray(data["transport-go"]).join(", ")}
+- **帰りの交通手段**: ${toArray(data["transport-return"]).join(", ")}
+- **予定**: ${toArray(data.plans).join(", ")}
+    `.trim();
+
+    navigator.clipboard.writeText(text).then(() => {
+      alert("旅行プランをコピーしました！（Markdown形式）");
+    }).catch(err => {
+      console.error("コピー失敗:", err);
+    });
+  }
+
+  // ホームボタン処理
+  function handleHome() {
+    localStorage.removeItem(EDIT_KEY);
+    form.reset();
+    if (confirm) confirm.innerHTML = "";
+    showScreen(0);
+  }
+
+  // イベントリスナーの設定
+  function setupEventListeners() {
+    // 次へボタン
+    document.querySelectorAll(".nextbtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const inputs = screens[current].querySelectorAll("input, select, textarea");
+        let valid = true;
+        inputs.forEach(input => {
+          if (!input.checkValidity()) {
+            input.reportValidity();
+            valid = false;
+          }
+        });
+        if (valid) showScreen(current + 1);
+      });
+    });
+
+    // 戻るボタン
+    document.querySelectorAll(".returnbtn").forEach(btn =>
+      btn.addEventListener("click", () => showScreen(current - 1))
+    );
+
+    // ホームボタン
+    document.querySelectorAll(".homebtn").forEach(btn =>
+      btn.addEventListener("click", handleHome)
+    );
+
+    // フォーム送信
+    form.addEventListener("submit", handleFormSubmit);
+
+    // 共有ボタン
+    document.querySelectorAll(".share button").forEach(btn => {
+      btn.addEventListener("click", handleShare);
+    });
+
+    // プラン追加ボタン
+    addPlanBtn.addEventListener("click", addPlanItem);
+
+    // 宿泊選択変更
+    staySelect.addEventListener("change", toggleStayOthers);
+  }
+
+  // 初期化処理
+  function initialize() {
+    setupEventListeners();
+    toggleStayOthers();
+    renderLogs();
+  }
+
+  // 初期化実行
+  initialize();
 });
