@@ -57,13 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return data;
   }
 
-  // 配列変換ヘルパー
   function toArray(val) {
     if (!val) return [];
     return Array.isArray(val) ? val : [val];
   }
 
-  // プラン保存
   function savePlan(data) {
     let plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     const editId = localStorage.getItem(EDIT_KEY);
@@ -78,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(plans));
   }
 
-  // フォームにプランを読み込み
   function loadPlanToForm(id) {
     let plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     let data = plans[id];
@@ -101,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 確認画面表示
   function showConfirm() {
     const data = collectFormData();
     confirm.innerHTML = `
@@ -114,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  // ログ表示
   function renderLogs() {
     logs.innerHTML = "";
 
@@ -142,24 +137,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // プラン項目追加
-  function addPlanItem() {
+  function addPlanItem(defaultValue = "") {
     const newInput = document.createElement("div");
     newInput.className = "plan-item";
-
+  
     newInput.innerHTML = `
-      <input type="text" name="plan" placeholder="例：観光、食事、買い物、温泉など" required />
+      <input type="text" name="plan" value="${defaultValue}" placeholder="例：観光、食事、買い物、温泉など" required />
       <button type="button" class="remove-plan">-</button>
     `;
     plansContainer.appendChild(newInput);
-
+  
     const removeBtn = newInput.querySelector(".remove-plan");
     removeBtn.addEventListener("click", () => {
       newInput.remove();
     });
   }
+  
 
-  // 宿泊選択の表示制御
   function toggleStayOthers() {
     if (staySelect.value === "others") {
       inputOthers.style.display = "block";
@@ -168,7 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // フォーム送信処理
   function handleFormSubmit(e) {
     e.preventDefault();
     const data = collectFormData();
@@ -193,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `.trim();
 
     navigator.clipboard.writeText(text).then(() => {
-      alert("旅行プランをコピーしました！（Markdown形式）");
+      alert("プランをコピーしました");
     }).catch(err => {
       console.error("コピー失敗:", err);
     });
@@ -237,8 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // フォーム送信
     form.addEventListener("submit", handleFormSubmit);
 
-    // 共有ボタン
-    document.querySelectorAll(".share button").forEach(btn => {
+    document.querySelectorAll(".sharebtn").forEach(btn => {
       btn.addEventListener("click", handleShare);
     });
 
@@ -249,13 +241,12 @@ document.addEventListener("DOMContentLoaded", () => {
     staySelect.addEventListener("change", toggleStayOthers);
   }
 
-  // 初期化処理
   function initialize() {
     setupEventListeners();
     toggleStayOthers();
     renderLogs();
+    addPlanItem();
   }
 
-  // 初期化実行
   initialize();
 });

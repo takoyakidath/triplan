@@ -52,9 +52,10 @@
                     <div class="input-others">
                         <input type="number" name="stay-others" min="4" placeholder="泊数を入力" />
                     </div>
-                </div>
-                <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
+                    <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
                         type="button">次へ</button></div>
+                </div>
+                
             </div>
     </div>
     <div class="screen screen-4">
@@ -96,11 +97,13 @@
             <div class="input-description">回答を入力してください</div>
             <div>
                 <div id="plans-container">
-                    <input type="text" name="plan" placeholder="例：観光、食事、買い物、温泉など" required />
-                    <br>
+                    <div class="plan-item">
+                      <input type="text" name="plan" placeholder="例：観光、食事、買い物、温泉など" required />
+                      <button type="button" class="remove-plan">-</button>
+                    </div>
+                  </div>
+                  <button type="button" id="add-plan">+</button>
                 </div>
-                <button type="button" id="add-plan">+</button>
-            </div>
             <div class="button"><button class="returnbtn" type="button">戻る</button><button class="nextbtn"
                     type="button">次へ</button></div>
         </div>
@@ -115,7 +118,7 @@
     </div>
     <div class="screen screen-8">
         <div class="share"><button class="sharebtn">共有</button></div>
-        <div class="share"><button class="homebtn">ホームに戻る</button></div>
+        <div class="home"><button class="homebtn">ホームに戻る</button></div>
     </div>
     </form>
     </div>
