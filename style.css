@@ -45,6 +45,10 @@ body {
 .button{
     justify-content: space-between;
 display: flex;
+margin-top: auto; /* 自動的に一番下へ押し出す */
+display: flex;
+padding: 10px;
+
 }
 .input-others{
   display: none;
@@ -88,15 +92,7 @@ display: flex;
 
 
 
-.startbtn::after {
-  transform: rotate(45deg);
-  width: 5px;
-  height: 5px;
-  margin-left: 10px;
-  border-top: 2px solid #fff;
-  border-right: 2px solid #fff;
-  content: '';
-}
+
 
 
 .screen {
@@ -161,4 +157,6 @@ display: flex;
   cursor: pointer;
   transition: 0.3s ease;
 }
+
+
 
