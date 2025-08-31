@@ -139,18 +139,25 @@ document.addEventListener("DOMContentLoaded", () => {
   
     let saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     saved.forEach((plan, index) => {
-      if (!plan) return; // ← nullをスキップ
+      if (!plan) return; // nullをスキップ
   
-      const row = document.createElement("div");
+      const row = document.createElement("button"); // ←divじゃなくてbuttonにする
       row.className = "log-item";
+      row.style.display = "flex";
+      row.style.justifyContent = "space-between";
+      row.style.alignItems = "center";
+      row.style.width = "100%";
   
+      // タイトル部分
       const title = document.createElement("span");
       title.textContent = `${plan.destination || "未設定"} (${plan["go-date"] || "未定"})`;
   
-      const btn = document.createElement("button");
-      btn.className = "editbtn";
-      btn.textContent = "編集";
-      btn.addEventListener("click", () => {
+      // ＞マーク
+      const arrow = document.createElement("span");
+      arrow.textContent = "編集";
+  
+      // クリックイベント
+      row.addEventListener("click", () => {
         loadPlanToForm(index);
         localStorage.setItem(EDIT_KEY, index);
         showScreen(1);
@@ -158,10 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   
       row.appendChild(title);
-      row.appendChild(btn);
+      row.appendChild(arrow);
       logsArea.appendChild(row);
     });
   }
+  
   
 
   // ----------------------------
