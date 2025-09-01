@@ -1,3 +1,4 @@
+/* ===== リセット・ベーススタイル ===== */
 body {
     margin: 0;
     padding: 0;
@@ -5,7 +6,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
 }
 
 .container {
@@ -14,148 +14,222 @@ body {
     max-width: 800px;
 }
 
-.card{
-  width: auto;
-  height: auto;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 4);
-  margin: 30%;
-  position: relative;
-  min-height: 300px;
+/* ===== カードコンポーネント ===== */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px auto;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    position: relative;
+    min-height: 280px;
+    max-width: 600px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.input{
-  width: 100%;
-  height: auto;
-  padding: 20px 18px;
-  background: #ffffff;
-  box-sizing: border-box;
-}
-.card-title{
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 125%;
-}
-.card__overviewtext{
-  font-size: 12px;
-  line-height: 150%;
-}
-.input-description{
-  font-size: 12px;
-  line-height: 150%;
-}
-.button{
-    justify-content: space-between;
-display: flex;
-margin-top: auto; /* 自動的に一番下へ押し出す */
-display: flex;
-padding: 10px;
 
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
-.input-others{
-  display: none;
-  margin-top: 10px;
+
+.card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    border-left: 5px solid #4a90e2;
+}
+
+.card__overviewtext {
+    font-size: 12px;
+    line-height: 150%;
+}
+
+/* ===== 入力フィールド ===== */
+.input {
+    width: 100%;
+    height: auto;
+    padding: 20px 18px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.input-description {
+    font-size: 12px;
+    line-height: 150%;
+}
+
+.input input,
+.date input,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input input:focus,
+.date input:focus,
+select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
+}
+
+.input-others {
+    display: none;
+    margin-top: 10px;
+}
+
+/* ===== チェックボックス ===== */
+.checkbox label {
+    display: block;
+    font-size: 15px;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+.checkbox input {
+    margin-right: 6px;
+}
+
+/* ===== ボタン ===== */
+.button {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.button button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+}
+
+.button button:hover {
+    background: linear-gradient(135deg, #5aa0ff, #2f6bbf);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.button button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.startbtn {
+    display: block;
+    width: 250px;
+    margin: 20px auto;
+    padding: .9em 2em;
+    border: none;
+    border-radius: 5px;
+    background-color: #437cc7;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .startbtn .nextbtn {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* デフォルトは普通にフロー内で配置 */
-.startbtn {
-  display: block;
-  width: 250px;
-  margin: 20px auto;
-  padding: .9em 2em;
-  border: none;
-  border-radius: 5px;
-  background-color: #437cc7;
-  color: #fff;
-  font-weight: 600;
-  font-size: 1em;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-/* screen-0 のときだけ中央に置きたい */
 .screen-0 .startbtn {
-  position: relative;   /* absoluteはやめる */
-  top: auto;
-  left: auto;
-  transform: none;      /* 中央寄せは margin:auto でやる */
-  margin: 40px auto;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 40px auto;
 }
 
+.editbtn {
+    padding: .4em .8em;
+    border: none;
+    border-radius: 4px;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
 
-
-
-
-
-
-
+/* ===== スクリーン管理 ===== */
 .screen {
-  display: none;
+    display: none;
 }
+
 .screen-0 {
-  display: block;
+    display: block;
 }
+
+/* ===== ログ・ヘッダー ===== */
 .logs-title {
-  padding: .5em .7em;
-  border-left: 5px solid #2589d0;
-  border-bottom: 3px solid #d2d2d2;
-  background-color: #f2f2f2;
-  color: #333333;
+    padding: .5em .7em;
+    border-left: 5px solid #2589d0;
+    border-bottom: 3px solid #d2d2d2;
+    background-color: #f2f2f2;
+    color: #333333;
 }
+
 .header {
-  padding: .5em .7em;
-  border: 2px solid #2589d0;
-  box-shadow: 5px 5px #2589d0;
-  color: #2589d0;
+    padding: .5em .7em;
+    border: 2px solid #2589d0;
+    box-shadow: 5px 5px #2589d0;
+    color: #2589d0;
 }
+
 .log-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin:0 auto;
-  padding: .9em 2em;
-  border: none;
-  border-bottom: solid 5px #2589d0;
-  border-radius: 5px;
-  background-color: #2589d0;
-  color: #fff;
-  font-weight: 600;
-  font-size: 1em;
-  transition: .5s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: .9em 2em;
+    border: none;
+    border-bottom: solid 5px #2589d0;
+    border-radius: 5px;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    transition: .5s ease;
+    cursor: pointer;
 }
 
 .log-item::after {
-  transform: rotate(45deg);
-  width: 5px;
-  height: 5px;
-  margin-left: 10px;
-  border-top: 2px solid #fff;
-  border-right: 2px solid #fff;
-  content: '';
+    transform: rotate(45deg);
+    width: 5px;
+    height: 5px;
+    margin-left: 10px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    content: '';
 }
 
 .log-item:hover {
-  transform: translateY(3px);
-  border-bottom-width: 2px;
-}
-
-
-
-.editbtn {
-  padding: .4em .8em;
-  border: none;
-  border-radius: 4px;
-  background-color: #2589d0; /* 青系で統一 */
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s ease;
+    transform: translateY(3px);
+    border-bottom-width: 2px;
 }
 
 
